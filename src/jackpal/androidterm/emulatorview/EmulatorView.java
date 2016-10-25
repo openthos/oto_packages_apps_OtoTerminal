@@ -1280,6 +1280,14 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
         if (LOG_KEY_EVENTS) {
             Log.w(TAG, "onKeyDown " + keyCode);
         }
+        if (event.isAltPressed()
+            && (keyCode == KeyEvent.KEYCODE_1 || keyCode == KeyEvent.KEYCODE_2
+               || keyCode == KeyEvent.KEYCODE_3 || keyCode == KeyEvent.KEYCODE_4
+               || keyCode == KeyEvent.KEYCODE_5 || keyCode == KeyEvent.KEYCODE_6
+               || keyCode == KeyEvent.KEYCODE_7 || keyCode == KeyEvent.KEYCODE_8
+               || keyCode == KeyEvent.KEYCODE_9 || keyCode == KeyEvent.KEYCODE_0)){
+            return false;
+        }
         if (handleControlKey(keyCode, true)) {
             return true;
         } else if (handleFnKey(keyCode, true)) {

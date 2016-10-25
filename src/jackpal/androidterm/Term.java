@@ -122,6 +122,16 @@ public class Term extends Activity implements UpdateCallback, SharedPreferences.
     private static final String ACTION_PATH_PREPEND_BROADCAST = "jackpal.androidterm.broadcast.PREPEND_TO_PATH";
     private static final String PERMISSION_PATH_BROADCAST = "jackpal.androidterm.permission.APPEND_TO_PATH";
     private static final String PERMISSION_PATH_PREPEND_BROADCAST = "jackpal.androidterm.permission.PREPEND_TO_PATH";
+    private final static int TERMINAL_WINDOW_ONE = 0;
+    private final static int TERMINAL_WINDOW_TWO = 1;
+    private final static int TERMINAL_WINDOW_THREE = 2;
+    private final static int TERMINAL_WINDOW_FOUR = 3;
+    private final static int TERMINAL_WINDOW_FIVE = 4;
+    private final static int TERMINAL_WINDOW_SIX = 5;
+    private final static int TERMINAL_WINDOW_SEVEN = 6;
+    private final static int TERMINAL_WINDOW_EIGHT = 7;
+    private final static int TERMINAL_WINDOW_NINE = 8;
+    private final static int TERMINAL_WINDOW_TEN = 9;
     private int mPendingPathBroadcasts = 0;
     private BroadcastReceiver mPathReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -879,6 +889,31 @@ public class Term extends Activity implements UpdateCallback, SharedPreferences.
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (event.isAltPressed() && mActionBar != null) {
+            if (keyCode == KeyEvent.KEYCODE_1){
+                mActionBar.setSelectedNavigationItem(TERMINAL_WINDOW_ONE);
+            } else if (keyCode == KeyEvent.KEYCODE_2) {
+                mActionBar.setSelectedNavigationItem(TERMINAL_WINDOW_TWO);
+            } else if (keyCode == KeyEvent.KEYCODE_3) {
+                mActionBar.setSelectedNavigationItem(TERMINAL_WINDOW_THREE);
+            } else if (keyCode == KeyEvent.KEYCODE_4) {
+                mActionBar.setSelectedNavigationItem(TERMINAL_WINDOW_FOUR);
+            } else if (keyCode == KeyEvent.KEYCODE_5) {
+                mActionBar.setSelectedNavigationItem(TERMINAL_WINDOW_FIVE);
+            } else if (keyCode == KeyEvent.KEYCODE_6) {
+                mActionBar.setSelectedNavigationItem(TERMINAL_WINDOW_SIX);
+            } else if (keyCode == KeyEvent.KEYCODE_7) {
+                mActionBar.setSelectedNavigationItem(TERMINAL_WINDOW_SEVEN);
+            } else if (keyCode == KeyEvent.KEYCODE_8) {
+                mActionBar.setSelectedNavigationItem(TERMINAL_WINDOW_EIGHT);
+            } else if (keyCode == KeyEvent.KEYCODE_9) {
+                mActionBar.setSelectedNavigationItem(TERMINAL_WINDOW_NINE);
+            } else if (keyCode == KeyEvent.KEYCODE_0) {
+                mActionBar.setSelectedNavigationItem(TERMINAL_WINDOW_TEN);
+            }
+            return true;
+        }
+
         /* The pre-Eclair default implementation of onKeyDown() would prevent
            our handling of the Back key in onKeyUp() from taking effect, so
            ignore it here */
