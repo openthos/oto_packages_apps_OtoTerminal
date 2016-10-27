@@ -181,7 +181,7 @@ public class TermViewFlipper extends ViewFlipper implements Iterable<View> {
         } else {
             mToast.setText(title);
         }
-        mToast.show();
+        //mToast.show();
     }
 
     @Override
