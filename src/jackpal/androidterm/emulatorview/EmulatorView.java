@@ -1220,7 +1220,19 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (mIsSelectingText) {
+        boolean isRightClick = false;
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (ev.getButtonState() == MotionEvent.BUTTON_SECONDARY) {
+                    isRightClick = true;
+                } else if (!mIsSelectingText) {
+                    toggleSelectingText();
+                }
+                break;
+            default:
+                break;
+        }
+        if (mIsSelectingText && !isRightClick) {
             return onTouchEventWhileSelectingText(ev);
         } else {
             return mGestureDetector.onTouchEvent(ev);
