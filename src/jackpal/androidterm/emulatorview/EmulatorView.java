@@ -39,6 +39,7 @@ import android.text.util.Linkify.MatchFilter;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.InputDevice;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -177,6 +178,8 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
     private int mSelY1 = -1;
     private int mSelX2 = -1;
     private int mSelY2 = -1;
+    private float mLastDownX;
+    private float mLastDownY;
 
     /**
      * Routing alt and meta keyCodes away from the IME allows Alt key processing to work on
@@ -1226,6 +1229,8 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
                 if (ev.getButtonState() == MotionEvent.BUTTON_SECONDARY) {
                     isRightClick = true;
                 } else if (!mIsSelectingText) {
+                    mLastDownX = ev.getX();
+                    mLastDownY = ev.getY();
                     toggleSelectingText();
                 }
                 break;
@@ -1730,5 +1735,23 @@ public class EmulatorView extends View implements GestureDetector.OnGestureListe
             return link.getURL();
         else
             return null;
+    }
+
+    public boolean onGenericMotionEvent(MotionEvent event) {
+        if ((event.getSource() & InputDevice.SOURCE_CLASS_POINTER) != 0) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_SCROLL: {
+                    final float vscroll = event.getAxisValue(MotionEvent.AXIS_VSCROLL);
+                    if (vscroll != 0.0f) {
+                        MotionEvent scrollEvent = MotionEvent.obtain(event);
+                        mLastDownY += vscroll * getVerticalScrollFactor();
+                        scrollEvent.setAction(MotionEvent.ACTION_MOVE);
+                        scrollEvent.setLocation(mLastDownX, mLastDownY);
+                        return mGestureDetector.onTouchEvent(scrollEvent);
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
